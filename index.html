@@ -1,1 +1,312 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Store</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0b14;
+      color: white;
+    }
+
+    header {
+      padding: 22px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #242438;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: bold;
+      color: #a78bfa;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 75px 20px 55px;
+      background: radial-gradient(
+        circle at top, #29204e, #0b0b14 70%
+      );
+    }
+
+    .badge {
+      display: inline-block;
+      color: #c4b5fd;
+      border: 1px solid #6d55a8;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 55px);
+      margin-bottom: 18px;
+      line-height: 1.15;
+    }
+
+    .hero h1 span {
+      color: #a78bfa;
+    }
+
+    .hero p {
+      color: #aaaabd;
+      line-height: 1.8;
+      max-width: 520px;
+      margin: auto;
+    }
+
+    .products {
+      padding: 55px 8%;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .section-title h2 {
+      font-size: 29px;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #aaaabd;
+      font-size: 14px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .card {
+      background: #151522;
+      border: 1px solid #29293c;
+      border-radius: 18px;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #8b5cf6;
+    }
+
+    .product-image {
+      height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #30204f, #172d49);
+      font-size: 65px;
+    }
+
+    .product-info {
+      padding: 23px;
+    }
+
+    .label {
+      display: inline-block;
+      background: #292044;
+      color: #c4b5fd;
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 20px;
+      margin-bottom: 13px;
+    }
+
+    .product-info h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #aaaabd;
+      font-size: 13px;
+      line-height: 1.7;
+      min-height: 44px;
+    }
+
+    .price {
+      font-size: 25px;
+      font-weight: bold;
+      margin: 22px 0 17px;
+      color: #c4b5fd;
+    }
+
+    .buy-button {
+      display: block;
+      background: #7c3aed;
+      color: white;
+      text-align: center;
+      padding: 13px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .buy-button:hover {
+      background: #6d28d9;
+    }
+
+    .advantages {
+      padding: 30px 8% 60px;
+      text-align: center;
+    }
+
+    .advantages h2 {
+      margin-bottom: 25px;
+    }
+
+    .benefits {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .benefit {
+      background: #151522;
+      border: 1px solid #29293c;
+      border-radius: 12px;
+      padding: 18px;
+      color: #d5d5e5;
+      font-size: 13px;
+    }
+
+    footer {
+      border-top: 1px solid #242438;
+      padding: 25px 15px;
+      text-align: center;
+      color: #88889d;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 18px 5%;
+      }
+
+      .products {
+        padding: 40px 5%;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+        max-width: 380px;
+      }
+
+      .product-image {
+        height: 175px;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">PREMIUM STORE.</div>
+    <a href="#produk">Produk Kami ↓</a>
+  </header>
+
+  <section class="hero">
+    <div class="badge">✦ PREMIUM DIGITAL STORE</div>
+    <h1>Upgrade Pengalaman<br><span>Digital Kamu.</span></h1>
+    <p>
+      Temukan produk digital pilihan dengan harga
+      terjangkau. Pilih produk favoritmu dan pesan
+      dengan mudah melalui WhatsApp.
+    </p>
+  </section>
+
+  <section class="products" id="produk">
+    <div class="section-title">
+      <h2>Produk Pilihan</h2>
+      <p>Dua produk digital untuk kebutuhanmu.</p>
+    </div>
+
+    <div class="product-grid">
+
+      <div class="card">
+        <div class="product-image">🎬</div>
+        <div class="product-info">
+          <span class="label">PRODUK 01</span>
+          <h3>Aplikasi Premium 1</h3>
+          <p class="description">
+            Akses fitur premium untuk mendukung
+            aktivitas digitalmu.
+          </p>
+          <div class="price">Rp25.000</div>
+          <a class="buy-button"
+             href="https://wa.me/6281234567890?text=Saya%20ingin%20membeli%20Aplikasi%20Premium%201">
+            Beli Sekarang ↗
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="product-image">✨</div>
+        <div class="product-info">
+          <span class="label">PRODUK 02</span>
+          <h3>Aplikasi Premium 2</h3>
+          <p class="description">
+            Pilihan produk digital untuk pengalaman
+            penggunaan yang lebih maksimal.
+          </p>
+          <div class="price">Rp35.000</div>
+          <a class="buy-button"
+             href="https://wa.me/6281234567890?text=Saya%20ingin%20membeli%20Aplikasi%20Premium%202">
+            Beli Sekarang ↗
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="advantages">
+    <h2>Kenapa Belanja di Sini?</h2>
+    <div class="benefits">
+      <div class="benefit">⚡ Pemesanan Mudah</div>
+      <div class="benefit">💬 Layanan WhatsApp</div>
+      <div class="benefit">🔒 Transaksi Lebih Terarah</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Premium Store. All rights reserved.</p>
+    <p>Produk digital pilihanmu, dalam satu tempat.</p>
+  </footer>
+
+</body>
+</html>
