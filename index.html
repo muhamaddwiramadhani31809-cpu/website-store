@@ -2,459 +2,1085 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dhani Store - Digital Store</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhani Store</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+:root {
+  --blue: #4b7ff0;
+  --blue-dark: #315fe0;
+  --sky: #eaf3ff;
+  --bg: #f5f7fb;
+  --white: #ffffff;
+  --text: #222b3a;
+  --muted: #758198;
+  --border: #e5e9f0;
+  --green: #20a86b;
+}
 
-    :root {
-      --biru: #38bdf8;
-      --biru-gelap: #0284c7;
-      --putih: #ffffff;
-      --abu: #f1f5f9;
-      --teks: #334155;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Arial, sans-serif;
+}
 
-    body {
-      background: var(--abu);
-      color: var(--teks);
-    }
+body {
+  background: var(--bg);
+  color: var(--text);
+  padding-bottom: 100px;
+}
 
-    header {
-      background: var(--putih);
-      padding: 18px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 3px 15px #0000000a;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+button, input {
+  font: inherit;
+}
 
-    .logo {
-      font-size: 23px;
-      font-weight: bold;
-      color: var(--biru-gelap);
-    }
+button {
+  cursor: pointer;
+}
 
-    .logo span {
-      color: var(--biru);
-    }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-    nav {
-      display: flex;
-      gap: 20px;
-    }
+.topbar {
+  background: var(--white);
+  padding: 20px 18px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--border);
+}
 
-    nav a {
-      color: var(--teks);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: bold;
-    }
+.logo {
+  font-size: 25px;
+  font-weight: 850;
+  letter-spacing: -1px;
+  color: var(--blue);
+}
 
-    nav a:hover {
-      color: var(--biru-gelap);
-    }
+.logo span {
+  color: var(--text);
+}
 
-    .hero {
-      margin: 25px auto;
-      width: 90%;
-      max-width: 1100px;
-      padding: 55px 30px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, #38bdf8, #bae6fd);
-      color: #075985;
-      text-align: center;
-    }
+.top-actions {
+  display: flex;
+  gap: 10px;
+}
 
-    .hero h1 {
-      font-size: 35px;
-      margin-bottom: 15px;
-    }
+.icon-btn {
+  border: 0;
+  background: var(--bg);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 21px;
+  color: var(--text);
+}
 
-    .hero p {
-      line-height: 1.7;
-      margin-bottom: 22px;
-    }
+.promo-line {
+  height: 52px;
+  background: linear-gradient(110deg, #294fd0, #638cff);
+  position: relative;
+  overflow: hidden;
+}
 
-    .btn {
-      display: inline-block;
-      background: var(--biru-gelap);
-      color: white;
-      text-decoration: none;
-      padding: 12px 22px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
+.promo-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .2;
+  background: repeating-linear-gradient(
+    130deg, transparent 0 45px, white 46px 47px
+  );
+}
 
-    .btn:hover {
-      opacity: 0.85;
-    }
+.page {
+  display: none;
+  animation: appear .2s ease;
+}
 
-    .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: 35px auto;
-    }
+.page.active {
+  display: block;
+}
 
-    .judul {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+@keyframes appear {
+  from { opacity: .6; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .judul h2 {
-      color: #0369a1;
-      margin-bottom: 8px;
-    }
+.search-wrap {
+  display: none;
+  padding: 14px 18px 0;
+}
 
-    .kategori {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-    }
+.search-wrap.show {
+  display: block;
+}
 
-    .kotak {
-      background: white;
-      padding: 28px 20px;
-      border-radius: 18px;
-      text-align: center;
-      box-shadow: 0 5px 18px #00000008;
-      transition: 0.2s;
-    }
+.search-wrap input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  outline: none;
+  color: var(--text);
+}
 
-    .kotak:hover {
-      transform: translateY(-4px);
-    }
+.search-wrap input:focus {
+  border-color: var(--blue);
+}
 
-    .ikon {
-      width: 65px;
-      height: 65px;
-      margin: 0 auto 15px;
-      display: grid;
-      place-items: center;
-      border-radius: 18px;
-      background: #e0f2fe;
-      font-size: 30px;
-    }
+.welcome {
+  margin: 20px 18px 24px;
+  border-radius: 20px;
+  padding: 24px 20px;
+  color: #164b9b;
+  background: linear-gradient(135deg, #dceeff, #b8d8ff);
+}
 
-    .kotak h3 {
-      margin-bottom: 10px;
-      color: #0369a1;
-    }
+.welcome .small {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
 
-    .kotak p {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #64748b;
-      margin-bottom: 18px;
-    }
+.welcome h1 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
 
-    .panel {
-      background: white;
-      padding: 25px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 5px 18px #00000008;
-    }
+.welcome p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
 
-    .panel h3 {
-      color: #0369a1;
-      margin-bottom: 15px;
-    }
+.primary-btn {
+  border: none;
+  border-radius: 11px;
+  background: var(--blue);
+  color: white;
+  padding: 12px 16px;
+  font-weight: 700;
+}
 
-    .panel p {
-      line-height: 1.8;
-      margin-bottom: 12px;
-    }
+.primary-btn:active {
+  transform: scale(.98);
+}
 
-    .panel input {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border: 1px solid #cbd5e1;
-      border-radius: 9px;
-      font-size: 15px;
-    }
+.section {
+  padding: 0 18px;
+  margin: 28px 0;
+}
 
-    .catatan {
-      color: #64748b;
-      font-size: 13px;
-    }
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 17px;
+}
 
-    footer {
-      background: #e0f2fe;
-      text-align: center;
-      padding: 28px 15px;
-      margin-top: 40px;
-      line-height: 1.8;
-    }
+.section-heading h2 {
+  font-size: 21px;
+}
 
-    footer a {
-      color: #0369a1;
-      font-weight: bold;
-      text-decoration: none;
-    }
+.section-heading small {
+  color: var(--muted);
+}
 
-    .wa {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 20;
-      background: #0284c7;
-      color: white;
-      text-decoration: none;
-      padding: 14px 18px;
-      border-radius: 30px;
-      box-shadow: 0 4px 15px #00000025;
-      font-weight: bold;
-    }
+.categories {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 0 18px 12px;
+  scrollbar-width: none;
+}
 
-    section {
-      scroll-margin-top: 85px;
-    }
+.categories::-webkit-scrollbar {
+  display: none;
+}
 
-    @media (max-width: 600px) {
-      header {
-        padding: 15px 5%;
-        flex-wrap: wrap;
-        gap: 14px;
-      }
+.category {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 14px 17px;
+  color: var(--text);
+  font-weight: 700;
+  white-space: nowrap;
+}
 
-      .logo {
-        font-size: 21px;
-      }
+.category .cat-icon {
+  background: var(--sky);
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+}
 
-      nav {
-        width: 100%;
-        justify-content: space-between;
-        gap: 8px;
-      }
+.category.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+  box-shadow: 0 5px 12px #4b7ff044;
+}
 
-      nav a {
-        font-size: 13px;
-      }
+.category.active .cat-icon {
+  background: #ffffff35;
+}
 
-      .hero {
-        padding: 40px 20px;
-      }
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
 
-      .hero h1 {
-        font-size: 28px;
-      }
+.product {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  box-shadow: 0 3px 10px #00000005;
+}
 
-      .kategori {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.product-art {
+  height: 145px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, #dceeff, #9bc8ff);
+}
+
+.product-art .art-icon {
+  width: 83px;
+  height: 83px;
+  border-radius: 23px;
+  display: grid;
+  place-items: center;
+  background: #ffffffdf;
+  font-size: 43px;
+  box-shadow: 0 8px 20px #1c4d8720;
+}
+
+.product-art .art-label {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 9px;
+  border-radius: 7px;
+  background: #ffffffdf;
+  color: #2453a7;
+}
+
+.product-info {
+  padding: 13px 12px 14px;
+}
+
+.product-info h3 {
+  font-size: 15px;
+  line-height: 1.35;
+  margin-bottom: 7px;
+  overflow-wrap: anywhere;
+}
+
+.stock {
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+.price {
+  color: var(--blue-dark);
+  font-size: 17px;
+  font-weight: 850;
+  margin-bottom: 12px;
+}
+
+.add-btn {
+  width: 100%;
+  border: 0;
+  background: var(--blue);
+  color: white;
+  padding: 10px 7px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.add-btn:disabled {
+  background: #a7b0c0;
+  cursor: not-allowed;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px 10px;
+  grid-column: 1 / -1;
+  line-height: 1.7;
+}
+
+.info-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+}
+
+.info-card h3 {
+  margin-bottom: 10px;
+}
+
+.info-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.list-row:last-child {
+  border-bottom: 0;
+}
+
+.row-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: var(--sky);
+  border-radius: 12px;
+  font-size: 21px;
+}
+
+.row-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.row-content strong {
+  font-size: 14px;
+}
+
+.row-content p {
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-item .cart-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-name strong {
+  font-size: 14px;
+}
+
+.cart-name p {
+  margin-top: 5px;
+  color: var(--blue-dark);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 29px;
+  height: 29px;
+  background: var(--bg);
+  color: var(--text);
+  font-weight: bold;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 18px 0;
+  font-weight: 800;
+}
+
+.full-btn {
+  width: 100%;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 9px;
+  left: 3%;
+  width: 94%;
+  z-index: 30;
+  background: #ffffffed;
+  backdrop-filter: blur(15px);
+  border: 1px solid #ffffff;
+  box-shadow: 0 5px 25px #18243b14;
+  border-radius: 25px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 8px 5px;
+}
+
+.nav-btn {
+  border: 0;
+  background: transparent;
+  color: #748098;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 9px 2px;
+  border-radius: 18px;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.nav-btn .nav-icon {
+  font-size: 23px;
+  line-height: 1.1;
+}
+
+.nav-btn.active {
+  color: white;
+  background: var(--blue);
+  box-shadow: 0 5px 12px #4b7ff044;
+}
+
+.badge {
+  display: inline-grid;
+  place-items: center;
+  background: #ef5350;
+  color: white;
+  border-radius: 50%;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  font-size: 10px;
+  margin-left: 3px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+footer strong {
+  color: var(--blue);
+  font-size: 16px;
+}
+
+body.dark {
+  --bg: #111827;
+  --white: #1f2937;
+  --text: #f3f6fc;
+  --muted: #a4aec0;
+  --border: #374151;
+  --sky: #243b5b;
+}
+
+body.dark .welcome {
+  background: linear-gradient(135deg, #233f69, #294e83);
+  color: #e2efff;
+}
+
+body.dark .bottom-nav {
+  background: #1f2937ed;
+  border-color: #374151;
+}
+
+body.dark .product-art {
+  background: linear-gradient(145deg, #29476c, #375f91);
+}
+
+body.dark .product-art .art-icon {
+  background: #ffffffed;
+}
+
+body.dark .product-art .art-label {
+  background: #1f2937ed;
+  color: #d9e9ff;
+}
+
+body.dark .search-wrap input {
+  background: var(--white);
+  color: var(--text);
+}
+
+body.dark .category {
+  background: var(--white);
+  color: var(--text);
+}
+
+body.dark .category.active {
+  background: var(--blue);
+  color: white;
+}
+
+@media (min-width: 700px) {
+  .topbar, .promo-line {
+    padding-left: max(18px, calc((100% - 900px) / 2));
+    padding-right: max(18px, calc((100% - 900px) / 2));
+  }
+
+  .welcome, .section {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .categories {
+    justify-content: center;
+  }
+
+  .products {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .product-art {
+    height: 170px;
+  }
+
+  .bottom-nav {
+    max-width: 650px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">Dhani<span>Store.</span></div>
-
-    <nav>
-      <a href="#beranda">Beranda</a>
-      <a href="#akun">Akun</a>
-      <a href="#transaksi">Transaksi</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero" id="beranda">
-      <h1>Selamat Datang di Dhani Store</h1>
-      <p>
-        Tempat belanja kebutuhan digital kamu.
-        Temukan aplikasi premium dan layanan up sosmed
-        dengan mudah dalam satu tempat.
-      </p>
-      <a href="#kategori" class="btn">Jelajahi Sekarang</a>
-    </section>
-
-    <section class="container" id="kategori">
-      <div class="judul">
-        <h2>Kategori Layanan</h2>
-        <p>Pilih layanan yang kamu butuhkan</p>
-      </div>
-
-      <div class="kategori">
-        <div class="kotak">
-          <div class="ikon">📱</div>
-          <h3>Aplikasi Premium</h3>
-          <p>
-            Temukan pilihan aplikasi digital premium
-            untuk kebutuhan sehari-hari.
-          </p>
-          <a href="#premium" class="btn">Lihat Kategori</a>
-        </div>
-
-        <div class="kotak">
-          <div class="ikon">🚀</div>
-          <h3>Up Sosmed</h3>
-          <p>
-            Jelajahi layanan media sosial sesuai
-            kebutuhan akun kamu.
-          </p>
-          <a href="#sosmed" class="btn">Lihat Kategori</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="container" id="premium">
-      <div class="panel">
-        <h3>📱 Aplikasi Premium</h3>
-        <p>
-          Selamat datang di kategori aplikasi premium
-          Dhani Store. Informasi produk dan harga
-          akan ditampilkan di sini.
-        </p>
-        <a
-          class="btn"
-          href="https://wa.me/6288210602780?text=Halo%20Dhani%20Store%2C%20saya%20ingin%20bertanya%20tentang%20aplikasi%20premium."
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Tanya Produk
-        </a>
-      </div>
-    </section>
-
-    <section class="container" id="sosmed">
-      <div class="panel">
-        <h3>🚀 Up Sosmed</h3>
-        <p>
-          Cari tahu pilihan layanan media sosial,
-          harga, dan ketentuan pemesanannya melalui
-          kontak resmi Dhani Store.
-        </p>
-        <a
-          class="btn"
-          href="https://wa.me/6288210602780?text=Halo%20Dhani%20Store%2C%20saya%20ingin%20bertanya%20tentang%20layanan%20up%20sosmed."
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Tanya Layanan
-        </a>
-      </div>
-    </section>
-
-    <section class="container" id="akun">
-      <div class="judul">
-        <h2>Halaman Akun</h2>
-        <p>Informasi pengunjung Dhani Store</p>
-      </div>
-
-      <div class="panel">
-        <h3>👤 Akun Pengunjung</h3>
-        <p>
-          Selamat datang! Kamu sedang mengunjungi
-          website Dhani Store.
-        </p>
-        <p class="catatan">
-          Fitur masuk, pendaftaran, dan penyimpanan
-          akun belum aktif. Formulir berikut hanya
-          contoh tampilan dan tidak menyimpan data.
-        </p>
-
-        <form onsubmit="demoAkun(event)">
-          <input
-            type="text"
-            placeholder="Nama pengguna"
-            aria-label="Nama pengguna"
-            required
-          >
-
-          <input
-            type="email"
-            placeholder="Email"
-            aria-label="Email"
-            required
-          >
-
-          <button type="submit" class="btn">
-            Lanjut
-          </button>
-        </form>
-
-        <p id="pesanAkun" class="catatan"></p>
-      </div>
-    </section>
-
-    <section class="container" id="transaksi">
-      <div class="judul">
-        <h2>Halaman Transaksi</h2>
-        <p>Informasi pemesanan dan pembayaran</p>
-      </div>
-
-      <div class="panel">
-        <h3>🧾 Cara Melakukan Transaksi</h3>
-        <p>1. Pilih kategori layanan yang kamu inginkan.</p>
-        <p>2. Hubungi admin melalui WhatsApp.</p>
-        <p>3. Tanyakan harga, ketersediaan, dan ketentuan produk.</p>
-        <p>4. Lakukan pembayaran setelah detail pesanan dikonfirmasi.</p>
-        <p>5. Simpan bukti transaksi untuk keperluan konfirmasi.</p>
-
-        <a
-          class="btn"
-          href="https://wa.me/6288210602780?text=Halo%20Dhani%20Store%2C%20saya%20ingin%20bertanya%20tentang%20transaksi."
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Hubungi Admin
-        </a>
-
-        <p class="catatan" style="margin-top: 15px;">
-          Riwayat transaksi otomatis belum tersedia.
-        </p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <h3>Dhani Store</h3>
-    <p>Solusi kebutuhan digital kamu.</p>
-    <p>
-      Kontak:
-      <a href="https://wa.me/6288210602780" target="_blank"
-         rel="noopener noreferrer">
-        088210602780
-      </a>
-    </p>
-    <p class="catatan">
-      © 2026 Dhani Store. All rights reserved.
-    </p>
-  </footer>
-
-  <a
-    class="wa"
-    href="https://wa.me/6288210602780"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Hubungi Dhani Store melalui WhatsApp"
-  >
-    WhatsApp
+<header class="topbar">
+  <a href="#beranda" class="logo" onclick="showPage('beranda')">
+    Dhani<span>Store.</span>
   </a>
+  <div class="top-actions">
+    <button class="icon-btn" onclick="toggleSearch()" aria-label="Cari">⌕</button>
+    <button class="icon-btn" onclick="toggleDark()" aria-label="Mode gelap">☾</button>
+  </div>
+</header>
 
-  <script>
-    function demoAkun(event) {
-      event.preventDefault();
-      document.getElementById("pesanAkun").textContent =
-        "Ini masih contoh tampilan. Fitur akun belum terhubung ke sistem.";
-    }
-  </script>
+<div class="promo-line"></div>
+
+<div class="search-wrap" id="searchWrap">
+  <input id="searchInput" type="search"
+    placeholder="Cari nama aplikasi atau layanan..."
+    oninput="renderProducts()">
+</div>
+
+<!-- BERANDA -->
+<main id="page-beranda" class="page active">
+  <section class="welcome">
+    <p class="small">SELAMAT DATANG DI</p>
+    <h1>Dhani Store 👋</h1>
+    <p>Temukan produk digital pilihanmu dengan mudah, cepat, dan praktis.</p>
+    <button class="primary-btn" onclick="scrollToProducts()">
+      Jelajahi Produk →
+    </button>
+  </section>
+
+  <div class="categories" id="categories">
+    <button class="category active" data-category="Semua"
+      onclick="setCategory('Semua', this)">
+      <span class="cat-icon">▦</span> Semua
+    </button>
+    <button class="category" data-category="Aplikasi Premium"
+      onclick="setCategory('Aplikasi Premium', this)">
+      <span class="cat-icon">📱</span> Aplikasi Premium
+    </button>
+    <button class="category" data-category="Up Sosmed"
+      onclick="setCategory('Up Sosmed', this)">
+      <span class="cat-icon">🚀</span> Up Sosmed
+    </button>
+  </div>
+
+  <section class="section" id="productSection">
+    <div class="section-heading">
+      <h2 id="productHeading">Produk Pilihan</h2>
+      <small id="productCount">0 produk</small>
+    </div>
+    <div class="products" id="productList"></div>
+  </section>
+
+  <section class="section">
+    <div class="info-card">
+      <h3>💬 Butuh bantuan?</h3>
+      <p>Hubungi admin Dhani Store untuk bertanya tentang produk, harga, stok, dan cara pemesanan.</p>
+      <br>
+      <a class="primary-btn" href="https://wa.me/6288210602780"
+        target="_blank" rel="noopener noreferrer">
+        Chat WhatsApp
+      </a>
+    </div>
+  </section>
+</main>
+
+<!-- TRANSAKSI -->
+<main id="page-transaksi" class="page">
+  <section class="section" style="padding-top:25px">
+    <div class="section-heading">
+      <h2>Transaksi</h2>
+    </div>
+    <div class="info-card">
+      <h3>🧾 Pemesanan Produk</h3>
+      <p>Produk yang dipilih akan masuk ke keranjang. Tekan tombol pesan untuk mengirim daftar pesanan ke WhatsApp admin.</p>
+    </div>
+    <div class="info-card">
+      <h3>📦 Keranjang Belanja</h3>
+      <div id="cartList"></div>
+      <div class="total">
+        <span>Total</span>
+        <span id="cartTotal">Rp0</span>
+      </div>
+      <button class="primary-btn full-btn" onclick="checkout()">
+        Pesan via WhatsApp
+      </button>
+    </div>
+    <div class="info-card">
+      <h3>ℹ️ Informasi</h3>
+      <p>Website ini belum memiliki sistem pembayaran otomatis atau riwayat transaksi. Konfirmasi pesanan dilakukan bersama admin.</p>
+    </div>
+  </section>
+</main>
+
+<!-- TOPUP -->
+<main id="page-topup" class="page">
+  <section class="section" style="padding-top:25px">
+    <div class="section-heading"><h2>Topup</h2></div>
+    <div class="info-card">
+      <h3>💳 Topup & Pembayaran</h3>
+      <p>Untuk menanyakan metode pembayaran yang tersedia, hubungi admin terlebih dahulu.</p>
+      <br>
+      <a class="primary-btn"
+        href="https://wa.me/6288210602780?text=Halo%20Dhani%20Store%2C%20saya%20ingin%20bertanya%20tentang%20topup%20dan%20pembayaran."
+        target="_blank" rel="noopener noreferrer">
+        Tanya Admin
+      </a>
+    </div>
+  </section>
+</main>
+
+<!-- NOTIFIKASI -->
+<main id="page-notif" class="page">
+  <section class="section" style="padding-top:25px">
+    <div class="section-heading"><h2>Notifikasi</h2></div>
+    <div class="info-card">
+      <div class="list-row">
+        <div class="row-icon">👋</div>
+        <div class="row-content">
+          <strong>Selamat datang di Dhani Store!</strong>
+          <p>Pilih kategori produk untuk mulai berbelanja.</p>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="row-icon">💬</div>
+        <div class="row-content">
+          <strong>Butuh bantuan?</strong>
+          <p>Admin siap membantu melalui WhatsApp.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- AKUN -->
+<main id="page-akun" class="page">
+  <section class="section" style="padding-top:25px">
+    <div class="section-heading"><h2>Akun Saya</h2></div>
+    <div class="info-card" style="text-align:center">
+      <div class="row-icon" style="margin:0 auto 15px;width:70px;height:70px;font-size:30px">👤</div>
+      <h3>Pengunjung Dhani Store</h3>
+      <p>Selamat datang! Kamu dapat berbelanja tanpa membuat akun.</p>
+    </div>
+    <div class="info-card">
+      <div class="list-row">
+        <div class="row-icon">🛒</div>
+        <div class="row-content">
+          <strong>Keranjang Saya</strong>
+          <p id="accountCartCount">0 produk dipilih</p>
+        </div>
+        <button class="primary-btn" onclick="showPage('transaksi')">Lihat</button>
+      </div>
+      <div class="list-row">
+        <div class="row-icon">📞</div>
+        <div class="row-content">
+          <strong>Kontak Admin</strong>
+          <p>088210602780</p>
+        </div>
+        <a class="primary-btn" href="https://wa.me/6288210602780"
+          target="_blank" rel="noopener noreferrer">Chat</a>
+      </div>
+    </div>
+    <div class="info-card">
+      <h3>Catatan</h3>
+      <p>Fitur login dan penyimpanan data akun belum tersedia pada versi ini.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <strong>Dhani Store</strong><br>
+  Toko produk digital pilihanmu.<br>
+  Kontak: <a href="https://wa.me/6288210602780">088210602780</a><br>
+  © 2026 Dhani Store
+</footer>
+
+<nav class="bottom-nav" aria-label="Navigasi utama">
+  <button class="nav-btn active" data-page="beranda"
+    onclick="showPage('beranda')">
+    <span class="nav-icon">⌂</span><span>Beranda</span>
+  </button>
+  <button class="nav-btn" data-page="transaksi"
+    onclick="showPage('transaksi')">
+    <span class="nav-icon">▤</span><span>Transaksi</span>
+  </button>
+  <button class="nav-btn" data-page="topup"
+    onclick="showPage('topup')">
+    <span class="nav-icon">▱</span><span>Topup</span>
+  </button>
+  <button class="nav-btn" data-page="notif"
+    onclick="showPage('notif')">
+    <span class="nav-icon">♧</span><span>Notif</span>
+  </button>
+  <button class="nav-btn" data-page="akun"
+    onclick="showPage('akun')">
+    <span class="nav-icon">♙</span><span>Akun</span>
+  </button>
+</nav>
+
+<script>
+/*
+  EDIT PRODUK DI BAGIAN INI:
+  name     = nama produk
+  category = "Aplikasi Premium" atau "Up Sosmed"
+  price    = harga dalam angka
+  stock    = stok produk
+  icon     = emoji contoh untuk gambar produk
+  color    = warna kartu produk
+*/
+
+const products = [
+  {
+    id: 1,
+    name: "Canva Premium",
+    category: "Aplikasi Premium",
+    price: 5000,
+    stock: 10,
+    icon: "🎨",
+    color: "linear-gradient(145deg,#dceaff,#8bb8ff)"
+  },
+  {
+    id: 2,
+    name: "Alight Motion",
+    category: "Aplikasi Premium",
+    price: 20000,
+    stock: 8,
+    icon: "🎬",
+    color: "linear-gradient(145deg,#dff8ff,#8bd7e9)"
+  },
+  {
+    id: 3,
+    name: "CapCut Premium",
+    category: "Aplikasi Premium",
+    price: 10000,
+    stock: 12,
+    icon: "✂️",
+    color: "linear-gradient(145deg,#eeeeff,#b8b9ff)"
+  },
+  {
+    id: 4,
+    name: "Paket Followers",
+    category: "Up Sosmed",
+    price: 15000,
+    stock: 20,
+    icon: "👥",
+    color: "linear-gradient(145deg,#e2f8ed,#92dfb6)"
+  },
+  {
+    id: 5,
+    name: "Paket Likes",
+    category: "Up Sosmed",
+    price: 5000,
+    stock: 25,
+    icon: "❤️",
+    color: "linear-gradient(145deg,#ffe6ef,#ffb2cf)"
+  },
+  {
+    id: 6,
+    name: "Paket Views",
+    category: "Up Sosmed",
+    price: 7000,
+    stock: 15,
+    icon: "▶️",
+    color: "linear-gradient(145deg,#fff0d8,#ffd08a)"
+  }
+];
+
+const cart = {};
+let selectedCategory = "Semua";
+
+function rupiah(value) {
+  return "Rp" + value.toLocaleString("id-ID");
+}
+
+function renderProducts() {
+  const list = document.getElementById("productList");
+  const query = document.getElementById("searchInput").value
+    .trim().toLowerCase();
+
+  const filtered = products.filter(product => {
+    const matchesCategory =
+      selectedCategory === "Semua" ||
+      product.category === selectedCategory;
+    const matchesQuery =
+      product.name.toLowerCase().includes(query) ||
+      product.category.toLowerCase().includes(query);
+
+    return matchesCategory && matchesQuery;
+  });
+
+  document.getElementById("productHeading").textContent =
+    selectedCategory === "Semua" ? "Produk Pilihan" : selectedCategory;
+
+  document.getElementById("productCount").textContent =
+    filtered.length + " produk";
+
+  if (filtered.length === 0) {
+    list.innerHTML =
+      '<div class="empty">Produk tidak ditemukan.<br>Coba kata kunci lain.</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(product => `
+    <article class="product">
+      <div class="product-art" style="background:${product.color}">
+        <div class="art-icon">${product.icon}</div>
+        <span class="art-label">${product.category}</span>
+      </div>
+      <div class="product-info">
+        <h3>${product.name}</h3>
+        <p class="stock">Stok: ${product.stock}</p>
+        <div class="price">${rupiah(product.price)}</div>
+        <button class="add-btn"
+          ${product.stock < 1 ? "disabled" : ""}
+          onclick="addToCart(${product.id})">
+          + Keranjang
+        </button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function setCategory(category, button) {
+  selectedCategory = category;
+
+  document.querySelectorAll(".category").forEach(item => {
+    item.classList.toggle("active", item === button);
+  });
+
+  renderProducts();
+}
+
+function addToCart(id) {
+  const product = products.find(item => item.id === id);
+  if (!product) return;
+
+  const currentQty = cart[id] || 0;
+
+  if (currentQty >= product.stock) {
+    alert("Jumlah pesanan sudah mencapai stok yang tersedia.");
+    return;
+  }
+
+  cart[id] = currentQty + 1;
+  updateCart();
+  alert(product.name + " ditambahkan ke keranjang.");
+}
+
+function changeQty(id, amount) {
+  const product = products.find(item => item.id === id);
+  if (!product) return;
+
+  const next = (cart[id] || 0) + amount;
+
+  if (next <= 0) {
+    delete cart[id];
+  } else if (next <= product.stock) {
+    cart[id] = next;
+  } else {
+    alert("Jumlah melebihi stok.");
+  }
+
+  updateCart();
+}
+
+function updateCart() {
+  const cartList = document.getElementById("cartList");
+  const entries = Object.entries(cart).filter(([, qty]) => qty > 0);
+
+  let total = 0;
+  let count = 0;
+
+  if (entries.length === 0) {
+    cartList.innerHTML =
+      '<p style="color:var(--muted);padding:18px 0;line-height:1.7">Keranjang masih kosong. Yuk, pilih produk di halaman Beranda.</p>';
+  } else {
+    cartList.innerHTML = entries.map(([id, qty]) => {
+      const product = products.find(item => item.id === Number(id));
+      if (!product) return "";
+
+      total += product.price * qty;
+      count += qty;
+
+      return `
+        <div class="cart-item">
+          <div class="cart-name">
+            <strong>${product.name}</strong>
+            <p>${rupiah(product.price * qty)}</p>
+          </div>
+          <div class="qty">
+            <button onclick="changeQty(${product.id},-1)" aria-label="Kurangi">−</button>
+            <span>${qty}</span>
+            <button onclick="changeQty(${product.id},1)" aria-label="Tambah">+</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  if (entries.length === 0) count = 0;
+
+  document.getElementById("cartTotal").textContent = rupiah(total);
+  document.getElementById("accountCartCount").textContent =
+    count + " produk dipilih";
+
+  document.querySelector('[data-page="transaksi"]').innerHTML =
+    '<span class="nav-icon">▤</span><span>Transaksi' +
+    (count > 0 ? '<span class="badge">' + count + '</span>' : '') +
+    '</span>';
+}
+
+function checkout() {
+  const entries = Object.entries(cart).filter(([, qty]) => qty > 0);
+
+  if (entries.length === 0) {
+    alert("Keranjang masih kosong. Pilih produk terlebih dahulu.");
+    showPage("beranda");
+    return;
+  }
+
+  let total = 0;
+  let message = "Halo Dhani Store, saya ingin memesan:%0A";
+
+  entries.forEach(([id, qty]) => {
+    const product = products.find(item => item.id === Number(id));
+    if (!product) return;
+
+    total += product.price * qty;
+    message += "%0A- " + encodeURIComponent(product.name) +
+      " x" + qty + " = " +
+      encodeURIComponent(rupiah(product.price * qty));
+  });
+
+  message += "%0A%0ATotal: " + encodeURIComponent(rupiah(total));
+  message += "%0A Mohon konfirmasi ketersediaan dan cara pembayaran.";
+
+  window.open(
+    "https://wa.me/6288210602780?text=" + message,
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
+
+function showPage(name) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.toggle("active", page.id === "page-" + name);
+  });
+
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === name);
+  });
+
+  if (name === "transaksi") updateCart();
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function toggleSearch() {
+  const wrap = document.getElementById("searchWrap");
+  wrap.classList.toggle("show");
+
+  if (wrap.classList.contains("show")) {
+    showPage("beranda");
+    setTimeout(() => document.getElementById("searchInput").focus(), 100);
+  } else {
+    document.getElementById("searchInput").value = "";
+    renderProducts();
+  }
+}
+
+function toggleDark() {
+  document.body.classList.toggle("dark");
+}
+
+function scrollToProducts() {
+  document.getElementById("productSection").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+renderProducts();
+updateCart();
+</script>
 
 </body>
 </html>
