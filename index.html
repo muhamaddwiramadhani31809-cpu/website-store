@@ -12,389 +12,610 @@ main{max-width:1120px;margin:0 auto;padding:22px 20px 112px}.view{display:none}.
 body.dark{--ink:#edf4fc;--muted:#9eacc0;--line:#303c4d;--surface:#202b3a;--bg:#131c29;--shadow:0 7px 18px #00000020}body.dark header,body.dark .bottom-nav{background:#202b3aef;border-color:#303c4d}body.dark .icon-btn{background:#2b3849;color:#edf4fc}body.dark .welcome{background:linear-gradient(120deg,#1b3852,#202b3a);border-color:#2b4b69}body.dark .welcome p{color:#a8bdd2}body.dark .tab{background:var(--surface);border-color:#344255;color:#d7e3f0}body.dark .tab.active{background:var(--blue2);color:white}body.dark .count{background:#2c3949;color:#c5d0df}body.dark .product-card{border-color:#303c4d}body.dark .buy-btn{background:#243f59;color:#8acbff}body.dark .auth-status{background:#243f59;color:#b7ddff}
 @media(max-width:850px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:620px){.header-inner{padding:12px 15px}.brand{font-size:25px}.logo{width:37px;height:37px}.hero-strip{height:40px}main{padding:17px 14px 105px}.welcome{padding:19px 16px;border-radius:19px}.welcome-art{width:65px;height:65px;border-radius:20px;font-size:31px}.tab{padding:10px 12px;font-size:13px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product-art{height:125px}.app-symbol{width:70px;height:70px;font-size:34px}.product-info{padding:11px}.product-info h3{font-size:15px}.product-info p{font-size:11px}.panel{padding:16px}.nav-item{font-size:9px}.nav-item span{font-size:19px}}@media(min-width:1000px){.product-art{height:165px}}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
+<!-- Supabase JS v2 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
 <body>
-<div class="topbar"></div>
-<header><div class="header-inner"><a href="#" class="brand" id="brandHome"><span class="logo">♛</span>Dhani Store</a><button class="icon-btn" id="themeToggle" aria-label="Ganti tema">☾</button></div></header>
+<header>
+  <div class="topbar"></div>
+  <div class="header-inner">
+    <a class="brand" href="#" onclick="showView('home');return false">
+      <span class="logo">D</span> Dhani Store
+    </a>
+    <button class="icon-btn" onclick="toggleDark()" aria-label="Ganti tema">☾</button>
+  </div>
+</header>
+
 <div class="hero-strip"></div>
+
 <main>
-<section class="view active" id="view-Beranda">
-<section class="welcome"><div><h1>Temukan aplikasi<br>favoritmu di sini ✨</h1><p>Produk digital pilihan, praktis dan mudah.<br>Pesan langsung lewat Instagram <strong>Dhani Store</strong>.</p></div><div class="welcome-art">🛍️</div></section>
-<div class="search-inline"><input id="searchInput" type="search" placeholder="Cari aplikasi premium..." aria-label="Cari produk"><button type="button" id="clearSearch" class="secondary-btn">Hapus</button></div>
-<nav class="category-tabs" aria-label="Kategori produk"><button class="tab active" data-category="Semua">▦ Semua</button><button class="tab" data-category="Aplikasi Premium">👑 Aplikasi Premium</button></nav>
-<div class="section-head"><h2 id="sectionTitle">Semua Produk</h2><span class="count" id="productCount">2</span><div class="rule"></div></div>
-<div class="product-grid" id="productGrid">
-<article class="product-card" data-name="Canva Premium" data-category="Aplikasi Premium" data-price="8000"><div class="product-art" style="background:linear-gradient(135deg,#13b7ca,#7c6df3)"><div class="app-symbol" style="background:linear-gradient(135deg,#13b7ca,#7c6df3)">C</div><span class="stock">Tanya admin*</span></div><div class="product-info"><h3>Canva Premium</h3><p>Buat desain, poster, dan konten lebih mudah.</p><span class="price">Mulai Rp8.000</span><button class="buy-btn" data-product="Canva Premium">Pesan via Instagram</button></div></article>
-<article class="product-card" data-name="Alight Motion Premium" data-category="Aplikasi Premium" data-price="0"><div class="product-art" style="background:linear-gradient(145deg,#18233f,#6d4aff)"><div class="app-symbol" style="background:linear-gradient(145deg,#18233f,#6d4aff)">A</div><span class="stock">Tanya admin*</span></div><div class="product-info"><h3>Alight Motion Premium</h3><p>Efek dan alat editing video untuk kreasi lebih bebas.</p><span class="price">Hubungi admin</span><button class="buy-btn" data-product="Alight Motion Premium">Pesan via Instagram</button></div></article>
-</div>
-<div class="empty-panel" id="emptyState" hidden>Produk tidak ditemukan. Coba kata kunci lain.</div>
-</section>
-<section class="view" id="view-Transaksi"><div class="panel"><h2>Transaksi Saya</h2><p class="muted">Riwayat pesanan yang tersimpan di akunmu.</p><div class="list" id="transactionList"><div class="empty-panel">Login dulu untuk melihat transaksi.</div></div></div></section>
-<section class="view" id="view-Notifikasi"><div class="panel"><h2>Notifikasi</h2><p class="muted">Informasi pesanan dan aktivitas akun.</p><div class="auth-actions"><button class="secondary-btn" id="clearNotifications">Hapus semua notifikasi</button></div><div class="list" id="notificationList"><div class="empty-panel">Login dulu untuk melihat notifikasi.</div></div></div></section>
-<section class="view" id="view-Akun">
-<div class="panel" id="authPanel"><h2>Akun Dhani Store</h2><p class="muted">Daftar atau masuk menggunakan username dan password.</p>
-<div class="field"><label for="authUsername">Username</label><input id="authUsername" autocomplete="username" placeholder="Contoh: dhani123" maxlength="24"></div>
-<div class="field"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="Minimal 6 karakter"></div>
-<div class="auth-actions"><button class="primary-btn" id="loginBtn">Login</button><button class="secondary-btn" id="signupBtn">Daftar akun</button></div>
-<p class="auth-status" id="authMessage" role="status">Menghubungkan ke Supabase...</p></div>
-<div class="panel" id="accountArea" hidden><h2>Akun Saya</h2><p class="muted">Login sebagai <strong id="loggedInName"></strong></p>
-<div class="field"><label for="customerName">Nama tampilan</label><input id="customerName" maxlength="60" placeholder="Nama yang ingin ditampilkan"></div>
-<button class="primary-btn" id="saveProfile">Simpan profil</button> <button class="secondary-btn" id="logoutBtn">Logout</button><p class="muted" id="accountSaved"></p></div>
-</section>
-<nav class="bottom-nav" aria-label="Navigasi utama">
-<button class="nav-item active" data-page="Beranda"><span>⌂</span>Beranda</button><button class="nav-item" data-page="Transaksi"><span>▤</span>Transaksi</button><button class="nav-item" data-page="Notifikasi"><span>♧</span>Notifikasi</button><button class="nav-item" data-page="Akun"><span>♙</span>Akun</button>
+  <!-- BERANDA -->
+  <section id="home" class="view active">
+    <div class="welcome">
+      <div>
+        <h1>Upgrade Digital Kamu 🚀</h1>
+        <p>Temukan aplikasi premium favoritmu dengan mudah di Dhani Store.</p>
+      </div>
+      <div class="welcome-art">✨</div>
+    </div>
+
+    <div class="search-inline">
+      <input id="searchInput" type="search" placeholder="Cari aplikasi..." oninput="renderProducts()">
+      <button onclick="renderProducts()">Cari</button>
+    </div>
+
+    <div class="category-tabs">
+      <button class="tab active" onclick="setCategory('Semua',this)">Semua</button>
+      <button class="tab" onclick="setCategory('Desain',this)">🎨 Desain</button>
+      <button class="tab" onclick="setCategory('Video',this)">🎬 Video</button>
+    </div>
+
+    <div class="section-head">
+      <h2>Produk Pilihan</h2>
+      <span class="count" id="productCount">2 produk</span>
+      <div class="rule"></div>
+    </div>
+
+    <div id="productGrid" class="product-grid"></div>
+    <footer>© 2026 Dhani Store · Belanja digital dengan mudah</footer>
+  </section>
+
+  <!-- TRANSAKSI -->
+  <section id="transactionsView" class="view">
+    <div class="panel">
+      <h2>🧾 Transaksi</h2>
+      <p class="muted">Riwayat transaksi akun lu yang tersimpan di Supabase.</p>
+      <div id="transactionList" class="list">
+        <div class="empty-panel">Login untuk melihat transaksi.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTIFIKASI -->
+  <section id="notificationsView" class="view">
+    <div class="panel">
+      <h2>🔔 Notifikasi</h2>
+      <p class="muted">Informasi untuk akun lu.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:15px 0">
+        <button class="secondary-btn" onclick="loadNotifications()">Muat ulang</button>
+        <button class="secondary-btn" onclick="clearNotifications()">Hapus notifikasi</button>
+      </div>
+      <div id="notificationList" class="list">
+        <div class="empty-panel">Login untuk melihat notifikasi.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AKUN -->
+  <section id="accountView" class="view">
+    <div class="panel">
+      <h2>👤 Akun Dhani Store</h2>
+      <p class="muted">Daftar atau login dengan username dan password.</p>
+
+      <div id="connectionStatus" class="auth-status">
+        Menghubungkan ke Supabase...
+      </div>
+
+      <div id="authPanel">
+        <div class="field">
+          <label for="username">Username</label>
+          <input id="username" type="text" placeholder="Masukkan username" autocomplete="username" maxlength="30">
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="Masukkan password" autocomplete="current-password" minlength="6">
+        </div>
+
+        <div class="auth-actions">
+          <button class="primary-btn" onclick="registerAccount()">Daftar</button>
+          <button class="secondary-btn" onclick="loginAccount()">Login</button>
+        </div>
+        <p class="muted">Gunakan username minimal 3 karakter dan password minimal 6 karakter.</p>
+      </div>
+
+      <div id="accountArea" hidden>
+        <div class="auth-status" id="loggedInMessage"></div>
+
+        <div class="field">
+          <label for="displayName">Nama tampilan</label>
+          <input id="displayName" type="text" placeholder="Nama yang ingin ditampilkan" maxlength="60">
+        </div>
+
+        <button class="primary-btn" onclick="saveProfile()">Simpan nama</button>
+        <button class="secondary-btn" onclick="logoutAccount()">Logout</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="showView('home',this)">
+    <span>⌂</span>Beranda
+  </button>
+  <button class="nav-item" onclick="showView('transactionsView',this)">
+    <span>▤</span>Transaksi
+  </button>
+  <button class="nav-item" onclick="showView('notificationsView',this)">
+    <span>♧</span>Notifikasi
+  </button>
+  <button class="nav-item" onclick="showView('accountView',this)">
+    <span>♙</span>Akun
+  </button>
 </nav>
-<div class="toast" id="toast" role="status"></div>
-<footer>© <span id="year"></span> Dhani Store · Aplikasi Premium</footer>
-</main><script>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/* KONEKSI SUPABASE */
 const SUPABASE_URL = "https://poisgltohcfucohcpcvs.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_MRNVr-iui2JIJUQaQ6EDrQ_4E85r8Xi";
-const USERNAME_INSTAGRAM_TOKO = "mhmdwi31";
-const STORAGE = { theme: "dhani-store-theme" };
+
 let db = null;
 let currentUser = null;
-let currentProfile = null;
-let currentCategory = "Semua";
-let query = "";
-const cards = [...document.querySelectorAll(".product-card")];
-const tabs = [...document.querySelectorAll(".tab")];
+let activeCategory = "Semua";
+let toastTimer;
 
-if (window.supabase && SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY) {
-  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-}
-
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.add("show");
-  clearTimeout(window.toastTimer);
-  window.toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
-}
-function setAuthMessage(message) {
-  document.getElementById("authMessage").textContent = message;
-}
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  }[c]));
-}
-function money(value) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency", currency: "IDR", maximumFractionDigits: 0
-  }).format(Number(value) || 0);
-}
-function formatDate(value) {
-  try {
-    return new Date(value).toLocaleString("id-ID", {
-      dateStyle: "medium", timeStyle: "short"
-    });
-  } catch (e) {
-    return value || "";
+const products = [
+  {
+    id: "canva",
+    name: "Canva Premium",
+    description: "Buat desain, poster, dan konten kreatif.",
+    price: "Hubungi admin",
+    category: "Desain",
+    symbol: "C",
+    gradient: "linear-gradient(145deg,#38bdf8,#6366f1)"
+  },
+  {
+    id: "alight",
+    name: "Alight Motion Premium",
+    description: "Bikin video dengan efek dan animasi keren.",
+    price: "Hubungi admin",
+    category: "Video",
+    symbol: "A",
+    gradient: "linear-gradient(145deg,#10b981,#047857)"
   }
+];
+
+function toast(message) {
+  const el = document.getElementById("toast");
+  el.textContent = message;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
 }
+
+function showView(id, button) {
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".nav-item").forEach(v => v.classList.remove("active"));
+  if (button) button.classList.add("active");
+  else {
+    const nav = document.querySelectorAll(".nav-item");
+    nav[0].classList.toggle("active", id === "home");
+    nav[1].classList.toggle("active", id === "transactionsView");
+    nav[2].classList.toggle("active", id === "notificationsView");
+    nav[3].classList.toggle("active", id === "accountView");
+  }
+
+  if (id === "transactionsView") loadTransactions();
+  if (id === "notificationsView") loadNotifications();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function setCategory(category, button) {
+  activeCategory = category;
+  document.querySelectorAll(".category-tabs .tab").forEach(b => b.classList.remove("active"));
+  button.classList.add("active");
+  renderProducts();
+}
+
+function renderProducts() {
+  const query = (document.getElementById("searchInput").value || "").toLowerCase();
+  const filtered = products.filter(p =>
+    (activeCategory === "Semua" || p.category === activeCategory) &&
+    (p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query))
+  );
+
+  document.getElementById("productCount").textContent = filtered.length + " produk";
+
+  document.getElementById("productGrid").innerHTML = filtered.length
+    ? filtered.map(p => `
+      <article class="product-card">
+        <div class="product-art" style="background:${p.gradient}">
+          <div class="app-symbol" style="background:#ffffff25;border:1px solid #ffffff55">${p.symbol}</div>
+          <span class="stock">Digital</span>
+        </div>
+        <div class="product-info">
+          <h3>${p.name}</h3>
+          <p>${p.description}</p>
+          <div class="price">${p.price}</div>
+          <button class="buy-btn" onclick="orderProduct('${p.id}')">Pesan produk</button>
+        </div>
+      </article>
+    `).join("")
+    : '<div class="empty-panel">Produk tidak ditemukan.</div>';
+}
+
+function toggleDark() {
+  document.body.classList.toggle("dark");
+  try {
+    localStorage.setItem("dhani-dark", document.body.classList.contains("dark") ? "1" : "0");
+  } catch (e) {}
+}
+
 function usernameEmail(username) {
   return username.toLowerCase() + "@accounts.dhanistore.invalid";
 }
-function validUsername(u) {
-  return /^[a-zA-Z0-9_]{3,24}$/.test(u);
+
+function validUsername(username) {
+  return /^[a-zA-Z0-9_]{3,30}$/.test(username);
 }
-function renderProducts() {
-  let shown = 0;
-  cards.forEach(card => {
-    const matchCategory = currentCategory === "Semua" ||
-      card.dataset.category.split(",").map(c => c.trim()).includes(currentCategory);
-    const matchQuery = card.dataset.name.toLowerCase().includes(query.trim().toLowerCase());
-    const visible = matchCategory && matchQuery;
-    card.style.display = visible ? "" : "none";
-    if (visible) shown++;
-  });
-  document.getElementById("productCount").textContent = shown;
-  document.getElementById("emptyState").hidden = shown !== 0;
-  document.getElementById("productGrid").style.display = shown ? "grid" : "none";
-  document.getElementById("sectionTitle").textContent = query.trim()
-    ? "Hasil pencarian"
-    : (currentCategory === "Semua" ? "Semua Produk" : currentCategory);
-}
-tabs.forEach(tab => tab.addEventListener("click", () => {
-  tabs.forEach(t => t.classList.toggle("active", t === tab));
-  currentCategory = tab.dataset.category;
-  renderProducts();
-}));
-document.getElementById("searchInput").addEventListener("input", e => {
-  query = e.target.value;
-  renderProducts();
-});
-document.getElementById("clearSearch").addEventListener("click", () => {
-  document.getElementById("searchInput").value = "";
-  query = "";
-  renderProducts();
-});
-function openInstagramDM() {
-  const username = USERNAME_INSTAGRAM_TOKO.replace(/^@/, "").trim();
-  const url = "https://ig.me/m/" + encodeURIComponent(username);
-  window.open(url, "_blank", "noopener,noreferrer");
-}
-async function refreshAuthUI() {
-  document.getElementById("authPanel").hidden = !!currentUser;
-  document.getElementById("accountArea").hidden = !currentUser;
-  if (currentUser) {
-    document.getElementById("loggedInName").textContent =
-      currentProfile?.username || currentUser.email;
-    document.getElementById("customerName").value =
-      currentProfile?.display_name || currentProfile?.username || "";
-    await loadCloudData();
-  } else {
-    document.getElementById("transactionList").innerHTML =
-      '<div class="empty-panel">Login dulu untuk melihat transaksi.</div>';
-    document.getElementById("notificationList").innerHTML =
-      '<div class="empty-panel">Login dulu untuk melihat notifikasi.</div>';
-  }
-}async function signup() {
-  if (!db) {
-    setAuthMessage("Supabase belum dikonfigurasi.");
+
+async function initSupabase() {
+  const status = document.getElementById("connectionStatus");
+
+  if (!window.supabase || !window.supabase.createClient) {
+    status.textContent = "Library Supabase gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.";
     return;
   }
-  const username = document.getElementById("authUsername").value.trim();
-  const password = document.getElementById("authPassword").value;
+
+  try {
+    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    const { data, error } = await db.auth.getSession();
+    if (error) throw error;
+
+    currentUser = data.session ? data.session.user : null;
+    await updateAccountUI();
+
+    db.auth.onAuthStateChange((_event, session) => {
+      currentUser = session ? session.user : null;
+      setTimeout(() => updateAccountUI(), 0);
+    });
+
+    status.textContent = "Terhubung ke layanan akun.";
+  } catch (error) {
+    status.textContent = "Koneksi gagal: " + error.message;
+  }
+}
+
+async function registerAccount() {
+  if (!db) return toast("Supabase belum terhubung.");
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+
   if (!validUsername(username)) {
-    setAuthMessage("Username 3–24 karakter, hanya huruf, angka, dan underscore.");
-    return;
+    return toast("Username 3–30 karakter: huruf, angka, atau garis bawah.");
   }
   if (password.length < 6) {
-    setAuthMessage("Password minimal 6 karakter.");
-    return;
+    return toast("Password minimal 6 karakter.");
   }
-  setAuthMessage("Membuat akun...");
-  const { data, error } = await db.auth.signUp({
-    email: usernameEmail(username),
-    password,
-    options: { data: { username } }
-  });
-  if (error) {
-    setAuthMessage("Gagal daftar: " + error.message);
-    return;
+
+  try {
+    const { data, error } = await db.auth.signUp({
+      email: usernameEmail(username),
+      password,
+      options: {
+        data: { username: username.toLowerCase() }
+      }
+    });
+
+    if (error) throw error;
+
+    if (data.user && data.session) {
+      currentUser = data.user;
+
+      const { error: profileError } = await db.from("profiles").upsert({
+        id: data.user.id,
+        username: username.toLowerCase(),
+        display_name: username
+      });
+
+      if (profileError) {
+        toast("Akun dibuat, tetapi profil gagal disimpan: " + profileError.message);
+        return;
+      }
+
+      toast("Pendaftaran berhasil!");
+      await updateAccountUI();
+    } else if (data.user && !data.session) {
+      toast("Akun dibuat, tetapi sesi belum aktif. Periksa pengaturan konfirmasi email Supabase.");
+    } else {
+      toast("Pendaftaran belum berhasil. Coba lagi.");
+    }
+  } catch (error) {
+    toast("Gagal daftar: " + error.message);
   }
-  if (!data.user) {
-    setAuthMessage("Pendaftaran diproses. Coba login setelah akun tersedia.");
-    return;
-  }
-  const { error: profileError } = await db.from("profiles").insert({
-    id: data.user.id,
-    username: username.toLowerCase()
-  });
-  if (profileError) {
-    setAuthMessage("Akun dibuat, tetapi profil gagal disimpan: " + profileError.message);
-    return;
-  }
-  setAuthMessage("Akun berhasil dibuat. Coba login.");
 }
-async function login() {
-  if (!db) {
-    setAuthMessage("Supabase belum dikonfigurasi.");
-    return;
+
+async function loginAccount() {
+  if (!db) return toast("Supabase belum terhubung.");
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!validUsername(username) || !password) {
+    return toast("Isi username dan password dengan benar.");
   }
-  const username = document.getElementById("authUsername").value.trim();
-  const password = document.getElementById("authPassword").value;
-  if (!validUsername(username)) {
-    setAuthMessage("Masukkan username valid (3–24 huruf/angka/underscore).");
-    return;
+
+  try {
+    const { data, error } = await db.auth.signInWithPassword({
+      email: usernameEmail(username),
+      password
+    });
+
+    if (error) throw error;
+
+    currentUser = data.user;
+    await updateAccountUI();
+    toast("Login berhasil!");
+  } catch (error) {
+    toast("Login gagal: " + error.message);
   }
-  if (!password) {
-    setAuthMessage("Masukkan password.");
-    return;
-  }
-  setAuthMessage("Sedang login...");
-  const { data, error } = await db.auth.signInWithPassword({
-    email: usernameEmail(username),
-    password
-  });
-  if (error) {
-    setAuthMessage("Login gagal: " + error.message);
-    return;
-  }
-  currentUser = data.user;
-  await getProfile();
-  await refreshAuthUI();
-  setAuthMessage("");
-  showToast("Berhasil login.");
+}async function logoutAccount() {
+  if (!db) return;
+
+  const { error } = await db.auth.signOut();
+  if (error) return toast("Logout gagal: " + error.message);
+
+  currentUser = null;
+  await updateAccountUI();
+  toast("Berhasil logout.");
 }
-async function getProfile() {
-  if (!db || !currentUser) return;
-  const { data, error } = await db.from("profiles")
-    .select("id,username,display_name")
+
+async function updateAccountUI() {
+  const authPanel = document.getElementById("authPanel");
+  const accountArea = document.getElementById("accountArea");
+  const status = document.getElementById("connectionStatus");
+
+  if (!currentUser) {
+    authPanel.hidden = false;
+    accountArea.hidden = true;
+    status.textContent = db ? "Supabase siap digunakan." : "Menghubungkan ke Supabase...";
+    return;
+  }
+
+  authPanel.hidden = true;
+  accountArea.hidden = false;
+  status.textContent = "Akun terhubung.";
+
+  const username =
+    currentUser.user_metadata?.username ||
+    currentUser.email?.split("@")[0] ||
+    "Pengguna";
+
+  document.getElementById("loggedInMessage").textContent =
+    "Login sebagai @" + username;
+
+  const { data, error } = await db
+    .from("profiles")
+    .select("username, display_name")
     .eq("id", currentUser.id)
     .maybeSingle();
-  if (!error) {
-    currentProfile = data || {
-      id: currentUser.id,
-      username: currentUser.user_metadata?.username ||
-        currentUser.email?.split("@")[0]
-    };
+
+  if (!error && data) {
+    document.getElementById("displayName").value =
+      data.display_name || "";
   }
+
+  loadTransactions();
+  loadNotifications();
 }
+
 async function saveProfile() {
-  if (!db || !currentUser) return;
-  const display_name = document.getElementById("customerName").value.trim();
-  const { error } = await db.from("profiles")
-    .update({ display_name })
-    .eq("id", currentUser.id);
-  if (error) {
-    document.getElementById("accountSaved").textContent =
-      "Gagal menyimpan: " + error.message;
-    return;
-  }
-  currentProfile = { ...currentProfile, display_name };
-  document.getElementById("accountSaved").textContent =
-    "Profil tersimpan di Supabase.";
-  showToast("Profil disimpan.");
-}
-async function loadCloudData() {
-  if (!db || !currentUser) return;
-  const [tx, nt] = await Promise.all([
-    db.from("transactions")
-      .select("id,product_name,amount,status,created_at")
-      .eq("user_id", currentUser.id)
-      .order("created_at", { ascending: false }),
-    db.from("notifications")
-      .select("id,message,is_read,created_at")
-      .eq("user_id", currentUser.id)
-      .order("created_at", { ascending: false })
-  ]);
-  const txEl = document.getElementById("transactionList");
-  if (tx.error) {
-    txEl.innerHTML = '<div class="empty-panel">Gagal memuat transaksi: ' +
-      escapeHTML(tx.error.message) + "</div>";
-  } else if (!tx.data?.length) {
-    txEl.innerHTML = '<div class="empty-panel">Belum ada transaksi.</div>';
-  } else {
-    txEl.innerHTML = tx.data.map(t =>
-      '<article class="list-item"><h3>' + escapeHTML(t.product_name) +
-      "</h3><p>" + money(t.amount) + "</p><p>Kode: " +
-      escapeHTML(t.id) + "<br>" + escapeHTML(formatDate(t.created_at)) +
-      '</p><span class="status">' + escapeHTML(t.status) +
-      "</span></article>"
-    ).join("");
-  }
-  const ntEl = document.getElementById("notificationList");
-  if (nt.error) {
-    ntEl.innerHTML = '<div class="empty-panel">Gagal memuat notifikasi: ' +
-      escapeHTML(nt.error.message) + "</div>";
-  } else if (!nt.data?.length) {
-    ntEl.innerHTML = '<div class="empty-panel">Belum ada notifikasi.</div>';
-  } else {
-    ntEl.innerHTML = nt.data.map(n =>
-      '<article class="list-item"><h3>Notifikasi</h3><p>' +
-      escapeHTML(n.message) + "</p><p>" +
-      escapeHTML(formatDate(n.created_at)) + "</p></article>"
-    ).join("");
-  }
-}
-async function orderProduct(name) {
   if (!db || !currentUser) {
-    showToast("Login dulu lewat menu Akun sebelum memesan.");
-    showPage("Akun");
-    return;
+    return toast("Login terlebih dahulu.");
   }
-  const card = cards.find(c => c.dataset.name === name);
-  if (!card) return;
-  const price = Number(card.dataset.price) || 0;
-  const { error } = await db.from("transactions").insert({
-    user_id: currentUser.id,
-    product_name: name,
-    amount: price,
-    status: "pending"
-  });
-  if (error) {
-    showToast("Transaksi gagal disimpan: " + error.message);
-    return;
+
+  const displayName = document.getElementById("displayName").value.trim();
+
+  if (!displayName) {
+    return toast("Isi nama tampilan terlebih dahulu.");
   }
-  const { error: noteError } = await db.from("notifications").insert({
-    user_id: currentUser.id,
-    message: "Pesanan dibuat: " + name + " — " + money(price) +
-      ". Hubungi admin untuk konfirmasi."
+
+  const username =
+    currentUser.user_metadata?.username ||
+    currentUser.email?.split("@")[0];
+
+  const { error } = await db.from("profiles").upsert({
+    id: currentUser.id,
+    username: username.toLowerCase(),
+    display_name: displayName
   });
-  await loadCloudData();
-  openInstagramDM();
-  showToast(noteError
-    ? "Pesanan dicatat. Notifikasi gagal disimpan."
-    : "Pesanan dicatat dan DM Instagram dibuka.");
+
+  if (error) return toast("Gagal menyimpan profil: " + error.message);
+
+  toast("Nama profil berhasil disimpan.");
 }
-document.getElementById("productGrid").addEventListener("click", e => {
-  const btn = e.target.closest(".buy-btn");
-  if (btn) orderProduct(btn.dataset.product);
-});
-document.getElementById("loginBtn").addEventListener("click", login);
-document.getElementById("signupBtn").addEventListener("click", signup);
-document.getElementById("saveProfile").addEventListener("click", saveProfile);
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-  if (db) await db.auth.signOut();
-  currentUser = null;
-  currentProfile = null;
-  await refreshAuthUI();
-  showToast("Logout berhasil.");
-});
-document.getElementById("clearNotifications").addEventListener("click", async () => {
+
+async function loadTransactions() {
+  const container = document.getElementById("transactionList");
+
   if (!db || !currentUser) {
-    showToast("Login dulu.");
+    container.innerHTML =
+      '<div class="empty-panel">Login untuk melihat transaksi.</div>';
     return;
   }
-  if (!confirm("Hapus semua notifikasi akun ini?")) return;
-  const { error } = await db.from("notifications")
-    .delete().eq("user_id", currentUser.id);
-  if (error) showToast("Gagal menghapus: " + error.message);
-  else {
-    await loadCloudData();
-    showToast("Notifikasi dihapus.");
+
+  container.innerHTML =
+    '<div class="empty-panel">Memuat transaksi...</div>';
+
+  const { data, error } = await db
+    .from("transactions")
+    .select("id, product_name, amount, status, created_at")
+    .eq("user_id", currentUser.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    container.innerHTML =
+      '<div class="empty-panel">Gagal memuat transaksi: ' +
+      escapeHTML(error.message) + '</div>';
+    return;
   }
-});
-function showPage(page) {
-  document.querySelectorAll(".view").forEach(v =>
-    v.classList.toggle("active", v.id === "view-" + page));
-  document.querySelectorAll(".nav-item").forEach(b =>
-    b.classList.toggle("active", b.dataset.page === page));
-  if (page === "Transaksi" || page === "Notifikasi") loadCloudData();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div class="empty-panel">Belum ada transaksi.</div>';
+    return;
+  }
+
+  container.innerHTML = data.map(item => `
+    <div class="list-item">
+      <h3>${escapeHTML(item.product_name)}</h3>
+      <p>Nominal: ${formatRupiah(item.amount)}</p>
+      <p>Tanggal: ${formatDate(item.created_at)}</p>
+      <span class="status">${escapeHTML(item.status)}</span>
+    </div>
+  `).join("");
 }
-document.querySelectorAll(".nav-item").forEach(btn =>
-  btn.addEventListener("click", () => showPage(btn.dataset.page)));
-document.getElementById("brandHome").addEventListener("click", e => {
-  e.preventDefault();
-  showPage("Beranda");
-});
-document.getElementById("themeToggle").addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  try {
-    localStorage.setItem(STORAGE.theme,
-      document.body.classList.contains("dark") ? "dark" : "light");
-  } catch (e) {}
-  document.getElementById("themeToggle").textContent =
-    document.body.classList.contains("dark") ? "☀" : "☾";
-});
-try {
-  if (localStorage.getItem(STORAGE.theme) === "dark") {
-    document.body.classList.add("dark");
-    document.getElementById("themeToggle").textContent = "☀";
+
+async function loadNotifications() {
+  const container = document.getElementById("notificationList");
+
+  if (!db || !currentUser) {
+    container.innerHTML =
+      '<div class="empty-panel">Login untuk melihat notifikasi.</div>';
+    return;
   }
-} catch (e) {}
-document.getElementById("year").textContent = new Date().getFullYear();
-(async () => {
-  renderProducts();
-  if (!db) {
-    setAuthMessage("Supabase belum dikonfigurasi.");
-  } else {
-    const { data } = await db.auth.getSession();
-    currentUser = data.session?.user || null;
-    if (currentUser) await getProfile();
-    await refreshAuthUI();
-    db.auth.onAuthStateChange(async (_event, session) => {
-      currentUser = session?.user || null;
-      if (currentUser) await getProfile();
-      else currentProfile = null;
-      await refreshAuthUI();
+
+  container.innerHTML =
+    '<div class="empty-panel">Memuat notifikasi...</div>';
+
+  const { data, error } = await db
+    .from("notifications")
+    .select("id, message, is_read, created_at")
+    .eq("user_id", currentUser.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    container.innerHTML =
+      '<div class="empty-panel">Gagal memuat notifikasi: ' +
+      escapeHTML(error.message) + '</div>';
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div class="empty-panel">Belum ada notifikasi.</div>';
+    return;
+  }
+
+  container.innerHTML = data.map(item => `
+    <div class="list-item">
+      <h3>${item.is_read ? "✓" : "🔔"} Notifikasi</h3>
+      <p>${escapeHTML(item.message)}</p>
+      <p>${formatDate(item.created_at)}</p>
+    </div>
+  `).join("");
+}
+
+async function clearNotifications() {
+  if (!db || !currentUser) {
+    return toast("Login terlebih dahulu.");
+  }
+
+  const { error } = await db
+    .from("notifications")
+    .delete()
+    .eq("user_id", currentUser.id);
+
+  if (error) return toast("Gagal menghapus: " + error.message);
+
+  toast("Notifikasi berhasil dihapus.");
+  await loadNotifications();
+}
+
+async function orderProduct(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  if (!currentUser) {
+    toast("Login atau daftar terlebih dahulu.");
+    showView("accountView");
+    return;
+  }
+
+  const confirmed = confirm(
+    "Pesan " + product.name + "?\n\nPesanan akan dicatat sebagai pending."
+  );
+
+  if (!confirmed) return;
+
+  const { error: transactionError } = await db
+    .from("transactions")
+    .insert({
+      user_id: currentUser.id,
+      product_name: product.name,
+      amount: 0,
+      status: "pending"
     });
+
+  if (transactionError) {
+    return toast("Gagal membuat transaksi: " + transactionError.message);
   }
-})();
+
+  const { error: notificationError } = await db
+    .from("notifications")
+    .insert({
+      user_id: currentUser.id,
+      message: "Pesanan " + product.name + " berhasil dicatat dan menunggu konfirmasi."
+    });
+
+  if (notificationError) {
+    toast("Transaksi tercatat, tetapi notifikasi gagal dibuat.");
+  } else {
+    toast("Pesanan dicatat! Status: pending.");
+  }
+
+  loadTransactions();
+  loadNotifications();
+
+  const instagramURL =
+    "https://www.instagram.com/mhmdwi31/";
+
+  if (confirm("Buka Instagram admin untuk melanjutkan pemesanan?")) {
+    window.open(instagramURL, "_blank", "noopener,noreferrer");
+  }
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function formatRupiah(value) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0
+  }).format(Number(value) || 0);
+}
+
+function formatDate(value) {
+  return new Date(value).toLocaleString("id-ID", {
+    dateStyle: "medium",
+    timeStyle: "short"
+  });
+}
+
+/* MULAIKAN WEBSITE */
+document.addEventListener("DOMContentLoaded", () => {
+  try {
+    if (localStorage.getItem("dhani-dark") === "1") {
+      document.body.classList.add("dark");
+    }
+  } catch (e) {}
+
+  renderProducts();
+  initSupabase();
+});
 </script>
 </body>
 </html>
